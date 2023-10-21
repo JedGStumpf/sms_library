@@ -4,17 +4,17 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
 
-KINDER = "K"
-FIRST = "1ST"
-SECOND = "2ND"
-THIRD = "3RD"
-FOURTH = "4TH"
-FIFTH = "5TH"
-SIXTH = "6TH"
-SEVENTH = "7TH"
-EIGHTH = "8TH"
-MIDDLE = "M"
-ALL = "ALL"
+KINDER = 0
+FIRST = 1
+SECOND = 2
+THIRD = 3
+FOURTH = 4
+FIFTH = 5
+SIXTH = 6
+SEVENTH = 7
+EIGHTH = 8
+MIDDLE = 9
+ALL = 10
 
 grade_choices = [
     (KINDER, "Kinder"),
@@ -34,8 +34,7 @@ grade_choices = [
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    grade = models.CharField(max_length=35, choices=grade_choices, default=ALL)
-    needs_reset_email = models.BooleanField(default=True)
+    grade = models.IntegerField(choices=grade_choices, default=ALL)
 
     TEACHER = "TEACHER"
     OFFICE_OR_SUBSTITUTE = "OFFICE_OR_SUBSTITUTE"
@@ -53,7 +52,16 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
-    
+
+    def __str__(self):
+        return self.email
+
+
+class ValidEmail(models.Model):
+    email = models.EmailField(max_length=150)
+
+    class Meta:
+        verbose_name_plural = "Valid Emails"
 
     def __str__(self):
         return self.email

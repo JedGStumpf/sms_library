@@ -1,0 +1,14 @@
+{% extends "library/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div style="text-align:center" class="container">
+    <ul>
+        <p>TEST</P>
+    {% for student in students %}
+        <li> {{ student.student_name }}_________Grade {{student.grade}}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

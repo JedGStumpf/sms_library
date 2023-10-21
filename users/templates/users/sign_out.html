@@ -1,0 +1,14 @@
+{% extends "library/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<h4 style="text-align:center" >You have been logged out</h4>
+<div style="text-align:center" class="border-top pt-3"  style="min-height:65vh;">
+    <small class="text-muted">
+        <a href="{% url 'users:sign_in' %}">Sign In Again</a>
+    </small>
+</div>
+
+{% endblock content %}

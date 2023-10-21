@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
         <link rel="stylesheet" href="">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
         {% if title %}
         <title>{{ title }}</title>
@@ -25,22 +26,31 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+
         {% if messages %}
             {% for message in messages %}
                 {{message}}
             {% endfor %}
+            <br>
+            <br>
+            <br>
         {% endif %}
-
+    <div class="container-fluid">
         {% if user.is_authenticated %}
-        <a class="logout" href="{% url 'sign_out' %}">Logout</a>
-        {% comment %} {% else %}  
-        <a class="login" href="{% url 'sign_in' %}">Sign In</a> {% endcomment %}
+        <a class="logout" href="{% url 'users:sign_out' %}" >Sign Out</a>
         {% endif %}
 
+
+        <h1 style="text-align:center">St. Mary School Library</h1>
+   
         {% block content %}
 
         {% endblock %}       
-        
+    </div>
+
         <script src="" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     </body>
 </html>

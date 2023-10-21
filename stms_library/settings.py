@@ -44,7 +44,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "library.apps.LibraryConfig",
     "users.apps.UsersConfig",
+    "captcha",
+    "django.forms",
 ]
+
+CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.math_challenge"
+CAPTCHA_LETTER_ROTATION = None
+CAPTCHA_BACKGROUND_COLOR = "white"
+CAPTCHA_FONT_SIZE = 45
+CAPTCHA_MATH_CHALLENGE_OPERATOR = "x"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -59,6 +67,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = "stms_library.urls"
 # LOGIN_REDIRECT_URL = "/admin"
 LOGIN_REDIRECT_URL = "/"
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 86400
 
 TEMPLATES = [
     {
@@ -135,6 +147,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = (str(BASE_DIR.joinpath("static")),)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

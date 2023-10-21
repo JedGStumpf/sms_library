@@ -2,10 +2,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, ValidEmail
 
 
-# @admin.register(CustomUser)
+# class LibraryAdmin(admin.AdminSite):
+#     site_header = "Library Admin"
+#     login_template = "users/admin/login.html"
+
+
+# stms_library_site = LibraryAdmin(name="LibraryAdmin")
+
+
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -21,7 +28,16 @@ class CustomUserAdmin(UserAdmin):
         "is_active",
     )
     fieldsets = (
-        (None, {"fields": ("email", "password", "grade")}),
+        (
+            None,
+            {
+                "fields": (
+                    "email",
+                    "password",
+                    "grade",
+                )
+            },
+        ),
         (
             "Permissions",
             {"fields": ("is_staff", "is_active", "groups", "user_permissions")},
@@ -77,3 +93,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(ValidEmail)

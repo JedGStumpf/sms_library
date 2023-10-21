@@ -11,11 +11,14 @@
     <form method='POST'>
         {%csrf_token%}
         {{ form.as_p }}
+        {% comment %} {{ form.captcha }} {% endcomment %}
 
-    <button type='submit'>Submit</button>
+        <button type='submit'>Submit</button>
 
     </form>
     {% endif %}
+    <br><br>
+    <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
 </div>
 <br/>
 <br/>

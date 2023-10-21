@@ -40,7 +40,7 @@ class Student(models.Model):
         help_text="Student Last Name",
     )
 
-    grade = models.CharField(max_length=35, choices=grade_choices)
+    grade = models.IntegerField(choices=grade_choices)
 
     @property
     def student_name(self):
@@ -50,20 +50,18 @@ class Student(models.Model):
         return self.student_name
 
 
-class CheckoutBook(models.Model):
-    book = models.ForeignKey(
-        Book, related_name="checkoutbook", on_delete=models.CASCADE
-    )
+class AddBookToCheckInOrOut(models.Model):
+    book = models.ForeignKey(Book, related_name="book", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = "Add Book to Check-out"
+        verbose_name_plural = "Add Book to Check In/Out"
 
 
-class CheckinBook(models.Model):
-    book = models.ForeignKey(Book, related_name="checkinbook", on_delete=models.CASCADE)
+# class CheckinBook(models.Model):
+#     book = models.ForeignKey(Book, related_name="checkinbook", on_delete=models.CASCADE)
 
-    class Meta:
-        verbose_name_plural = "Add Book to Check-in"
+#     class Meta:
+#         verbose_name_plural = "Add Book to Check-in"
 
 
 class CheckoutorIn(models.Model):
@@ -74,14 +72,22 @@ class CheckoutorIn(models.Model):
         Student, related_name="student", on_delete=models.CASCADE
     )
 
-    check_in = models.ForeignKey(
-        CheckinBook, null=True, related_name="checkin", on_delete=models.CASCADE
-    )
-    check_out = models.ForeignKey(
-        CheckoutBook, null=True, related_name="checkout", on_delete=models.CASCADE
+    # check_in = models.ForeignKey(
+    #     CheckinBook,
+    #     null=True,
+    #     blank=True,
+    #     related_name="checkin",
+    #     on_delete=models.CASCADE,
+    # )
+    add_book = models.ForeignKey(
+        AddBookToCheckInOrOut,
+        null=True,
+        blank=True,
+        related_name="add_book",
+        on_delete=models.CASCADE,
     )
     due_date = models.DateTimeField(default=get_return_date())
-    date_checked_out = models.DateTimeField(auto_now_add=True)
+    date_checked_out = models.DateTimeField(null=True, blank=True, auto_now_add=False)
     date_checked_in = models.DateTimeField(null=True, blank=True, auto_now_add=False)
 
     all_checked_in = models.BooleanField(default=False)
