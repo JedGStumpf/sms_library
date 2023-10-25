@@ -10,7 +10,7 @@ class UsersManagersTests(TestCase):
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
-        self.assertTrue(user.password.length >= 12)
+        self.assertTrue(len(user.password) >= 12)
         try:
             # username is None for the AbstractUser option
             # username does not exist for the AbstractBaseUser option
@@ -33,7 +33,7 @@ class UsersManagersTests(TestCase):
         self.assertTrue(admin_user.is_active)
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
-        self.assertTrue(admin_user.password.length >= 12)
+        self.assertTrue(len(admin_user.password) >= 12)
         try:
             # username is None for the AbstractUser option
             # username does not exist for the AbstractBaseUser option

@@ -1,0 +1,19 @@
+{% extends "library/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header card-header-secondary">
+        <h4 class="card-title">Check Out Orders</h4>
+        <a href="{% url 'library:create_order' %}">Create an Order</a>
+    </div>
+    <ul>
+        {% for order in orders %}
+            <li class="card-body">{{ order }} | <a href="{% url 'library:update_order' order.id %}">Check In or Change This Order</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock content %}

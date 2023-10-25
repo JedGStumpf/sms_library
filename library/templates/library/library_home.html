@@ -11,9 +11,9 @@
 {% endif %}
 <br>
 <br>
-<h1> Stuff Goes Here </h1>
+<h1> View Check-In or Create Student Book Orders </h1>
 {% if user.is_authenticated %}
-<a class="SignIn" href="{% url 'library:student_list' %}" >Students</a>
+<a class="SignIn" href="{% url 'library:order_list' %}" >Student Book Orders</a>
 {% endif %}
 </div>
 {% endblock content %}

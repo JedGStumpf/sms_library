@@ -1,0 +1,19 @@
+{% extends "library/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header card-header-secondary">
+        <h4 class="card-title">Check Ins</h4>
+        <a href="{% url 'library:create_check_in' %}">Add Another Check In</a>
+    </div>
+    <ul>
+        {% for checkin in checkins %}
+            <li class="card-body">{{ checkin.student_name }} | <a href="{% url 'library:update_check_in' checkin.id %}">Edit</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock content %}

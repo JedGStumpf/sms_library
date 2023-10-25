@@ -3,12 +3,17 @@
 {% load static %}
 
 {% block content %}
-<div style="text-align:center" class="container">
+
+<div class="card">
+    {% comment %} <div class="card-header card-header-secondary">
+        <h4 class="card-title">Check Ins</h4>
+        <a href="{% url 'library:create_student' %}">Add Another Check In</a>
+    </div> {% endcomment %}
     <ul>
-        <p>TEST</P>
-    {% for student in students %}
-        <li> {{ student.student_name }}_________Grade {{student.grade}}</li>
-    {% endfor %}
+        {% for student in students %}
+            <li class="card-body">{{ student.student_name }} | <a href="{% url 'library:update_student' student.id %}">Edit</a></li>
+        {% endfor %}
     </ul>
 </div>
+
 {% endblock content %}
