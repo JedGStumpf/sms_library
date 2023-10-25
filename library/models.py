@@ -24,8 +24,6 @@ class Student(models.Model):
         help_text="Student Last Name",
     )
 
-    # student_name = models.CharField(max_length=100, default="")
-
     grade = models.IntegerField(choices=grade_choices)
 
     @property
@@ -36,62 +34,15 @@ class Student(models.Model):
         return self.student_name
 
 
-class CheckoutorIn(models.Model):
-    student = models.ForeignKey(
-        Student,
-        related_name="student_checkoutorin",
-        on_delete=models.CASCADE,
-        null=True,
-    )
-    due_date = models.DateField(default=get_return_date())
-    date_checked_out = models.DateField(null=True, blank=True, auto_now_add=False)
-    date_checked_in = models.DateField(null=True, blank=True, auto_now_add=False)
-
-    all_checked_in = models.BooleanField(default=False)
-
-    @property
-    def get_student_books(self, request, student_name):
-        pass
-
-    class Meta:
-        verbose_name_plural = "Check Out or In"
-
-
-class BookManager(models.Manager):
-    def create_book(self, title, author=None):
-        book = self.create(title=title, author=author)
-        book.save()
-
-        return book
-
-
-class Book(models.Model):
-    student = models.ForeignKey(
-        Student, related_name="student_book", on_delete=models.CASCADE, null=True
-    )
-    check_out_or_in = models.ManyToManyField(
-        CheckoutorIn,
-        related_name="check_out_or_in_book",
-    )
-    title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100, blank=True)
-    objects = BookManager()
-
-    def __str__(self):
-        if self.author:
-            return f"Title: {self.title}\n Author: {self.author}"
-        return f"Title: {self.title}"
-
-
 class CheckOutOrder(models.Model):
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="teacher_order",
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.SET_DEFAULT,
+        default=1,
     )
     student = models.ForeignKey(
-        Student, related_name="student_order", on_delete=models.SET_NULL, null=True
+        Student, related_name="student_order", on_delete=models.CASCADE
     )
     due_date = models.DateField(default=get_return_date())
     checked_out_on = models.DateField(default=timezone.now)
@@ -106,7 +57,7 @@ class CheckOutOrder(models.Model):
 
 class AddBook(models.Model):
     order = models.ForeignKey(
-        CheckOutOrder, on_delete=models.SET_NULL, null=True, related_name="order"
+        CheckOutOrder, on_delete=models.CASCADE, related_name="order"
     )
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50, null=True)

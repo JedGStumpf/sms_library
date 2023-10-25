@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, inlineformset_factory
-from .models import CheckoutorIn, Student, Book, CheckOutOrder, AddBook
+from .models import Student, CheckOutOrder, AddBook
 from django.contrib.auth import get_user_model
 
 
@@ -83,42 +83,42 @@ AddBookFormSet = inlineformset_factory(
 )
 
 
-class StudentForm(ModelForm):
-    class Meta:
-        model = Student
-        exclude = ["teacher", "student_last_name", "grade", "student_first_name"]
+# class StudentForm(ModelForm):
+#     class Meta:
+#         model = Student
+#         exclude = ["teacher", "student_last_name", "grade", "student_first_name"]
 
 
-class CheckOutOrInForm(ModelForm):
-    class Meta:
-        model = CheckoutorIn
-        fields = "__all__"
-        exclude = ["student", "all_checked_in"]
+# class CheckOutOrInForm(ModelForm):
+#     class Meta:
+#         model = CheckoutorIn
+#         fields = "__all__"
+#         exclude = ["student", "all_checked_in"]
 
 
-class BookForm(ModelForm):
-    class Meta:
-        model = Book
-        fields = "__all__"
-        exclude = ["student", "check_out_or_in"]
-        widgets = {
-            "date_checked_out": forms.DateInput(attrs={"class": "form-control"}),
-            "date_checked_in": forms.DateInput(attrs={"class": "form-control"}),
-        }
+# class BookForm(ModelForm):
+#     class Meta:
+#         model = Book
+#         fields = "__all__"
+#         exclude = ["student", "check_out_or_in"]
+#         widgets = {
+#             "date_checked_out": forms.DateInput(attrs={"class": "form-control"}),
+#             "date_checked_in": forms.DateInput(attrs={"class": "form-control"}),
+#         }
 
 
-CheckOutOrInFormSet = inlineformset_factory(
-    Student,
-    CheckoutorIn,
-    form=CheckOutOrInForm,
-    extra=1,
-    max_num=1,
-    min_num=1,
-    can_delete=True,
-    can_delete_extra=True,
-)
+# CheckOutOrInFormSet = inlineformset_factory(
+#     Student,
+#     CheckoutorIn,
+#     form=CheckOutOrInForm,
+#     extra=1,
+#     max_num=1,
+#     min_num=1,
+#     can_delete=True,
+#     can_delete_extra=True,
+# )
 
 
-BookFormSet = inlineformset_factory(
-    Student, Book, form=BookForm, extra=10, can_delete=True, can_delete_extra=True
-)
+# BookFormSet = inlineformset_factory(
+#     Student, Book, form=BookForm, extra=10, can_delete=True, can_delete_extra=True
+# )
