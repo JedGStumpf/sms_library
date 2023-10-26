@@ -5,7 +5,8 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 {% load static %}
 <html lang="en">
-    <head>
+    <head style "a:color:black">
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
@@ -22,7 +23,7 @@
         {% endif %}
 
     </head>
-    <body>
+    <body  style="background-color:rgba(66, 120, 255, 0.25);" > 
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -35,18 +36,28 @@
             <br>
             <br>
         {% endif %}
-    <div class="container-fluid">
-        {% if user.is_authenticated %}
-        <a class="logout" href="{% url 'users:sign_out' %}" >Sign Out</a>
-        {% endif %}
+    <div>
+        <div style="text-align:right; margin-top:120px" class="container-fluid">
+            {% if user.is_authenticated %}
+            
+            <a class="logout" href=" {% url 'users:sign_out' %}" style="color:black">Sign Out</a>
+            {% endif %}
+        </div>
+        <div class="container-fluid fixed-top" style="background-color:rgb(253, 199, 65);">
 
+            <h1 class="display-4" style="text-align:center; margin-top:25px;margin-bottom:25px; font-weight:bold">St. Mary School Library</h1>
+        </div>
+            {% block content %}
 
-        <h1 style="text-align:center">St. Mary School Library</h1>
-   
-        {% block content %}
-
-        {% endblock %}       
+            {% endblock %}       
     </div>
+
+    <footer class = "fixed-bottom">
+        <div class="footer container-fluid" style="border-bottom: solid 50px rgb(253, 199, 65)">
+        </div>
+        
+    </footer>
+
 
         <script src="" async defer></script>
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>

@@ -23,30 +23,18 @@ grade_choices = [
     (THIRD, "3rd"),
     (FOURTH, "4th"),
     (FIFTH, "5th"),
-    (SIXTH, "6th"),
-    (SEVENTH, "7th"),
-    (EIGHTH, "8th"),
-    (MIDDLE, "Middle School (6th, 7th, 8th)"),
-    (ALL, "All"),
+    (SIXTH, "6th Only"),
+    (SEVENTH, "7th Only"),
+    (EIGHTH, "8th Only"),
+    (MIDDLE, "Middle School - 2 or more of: (6th, 7th, 8th)"),
+    (ALL, "All - For Substitutes and Office Staff Only"),
 ]
 
 
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
-    grade = models.IntegerField(choices=grade_choices, default=ALL)
-
-    TEACHER = "TEACHER"
-    OFFICE_OR_SUBSTITUTE = "OFFICE_OR_SUBSTITUTE"
-    OFFICE_ADMIN = "OFFICE_ADMIN"
-
-    ROLE_CHOICES = [
-        (TEACHER, "Teacher"),
-        (OFFICE_OR_SUBSTITUTE, "Office or Substitute"),
-        (OFFICE_ADMIN, "Office Administration"),
-    ]
-
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=TEACHER)
+    grade = models.IntegerField(choices=grade_choices, blank=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -58,12 +46,10 @@ class CustomUser(AbstractUser):
 
 
 class ValidEmail(models.Model):
-    email = models.EmailField(max_length=150)
+    email = models.EmailField(max_length=150, unique=True)
 
     class Meta:
         verbose_name_plural = "Valid Emails"
 
     def __str__(self):
         return self.email
-
-

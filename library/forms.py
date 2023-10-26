@@ -4,14 +4,39 @@ from .models import Student, CheckOutOrder, AddBook
 from django.contrib.auth import get_user_model
 
 
+# user_grade = self.request.user.grade
+# if user_grade == 9:
+#     return CheckOutOrder.objects.exclude(order_returned=True).filter(
+#         student__grade__gte=6
+#     )
+
+# elif user_grade == 10:
+#     return CheckOutOrder.objects.all().exclude(order_returned=True)
+
+# return CheckOutOrder.objects.exclude(order_returned=True).filter(
+#     student__grade=user_grade
+# )
+
+
 class CheckOutOrderForm(ModelForm):
     def __init__(self, *args, **kwargs):
         try:
             self.request = kwargs.pop("request")
+            teacher_grade = self.request.user.grade
             super(CheckOutOrderForm, self).__init__(*args, **kwargs)
-            self.fields["student"].queryset = Student.objects.filter(
-                grade=self.request.user.grade
-            )
+            # ADD LOGIC FOR MIDDLE SCHOOL AND ALL
+            if teacher_grade == 9:
+                self.fields["student"].queryset = Student.objects.filter(
+                    student__grade_get=6
+                ).order_by("grade")
+            elif teacher_grade == 10:
+                self.fields["student"].queryset = Student.objects.all().order_by(
+                    "grade"
+                )
+            else:
+                self.fields["student"].queryset = Student.objects.filter(
+                    grade=teacher_grade
+                )
             self.fields["teacher"].queryset = get_user_model().objects.filter(
                 id=self.request.user.id
             )

@@ -11,8 +11,6 @@
     <form method='POST'>
         {%csrf_token%}
         {{ form.as_p }}
-        {% comment %} {{ form.captcha }} {% endcomment %}
-
         <button type='submit'>Submit</button>
 
     </form>

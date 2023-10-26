@@ -16,7 +16,6 @@ class CustomSignInView(LoginView):
     form_class = SignInForm
 
 
-
 @login_required
 def sign_out(request):
     logout(request)
@@ -36,7 +35,10 @@ def signup(request):
             if valid_email:
                 user = form.save()
                 raw_password = form.cleaned_data.get("password1")
-                user = authenticate(request, email=user.email, password=raw_password)
+                grade = form.cleaned_data.get("grade")
+                user = authenticate(
+                    request, email=user.email, grade=grade, password=raw_password
+                )
 
                 if user is not None:
                     login(request, user)

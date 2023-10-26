@@ -4,6 +4,9 @@ from users.models import grade_choices
 from django.conf import settings
 from django.utils import timezone
 
+# Students can only have grades 0-8 (K-8)
+student_grade_choices = grade_choices[0:9]
+
 
 def get_return_date():
     today = date.today()
@@ -24,7 +27,7 @@ class Student(models.Model):
         help_text="Student Last Name",
     )
 
-    grade = models.IntegerField(choices=grade_choices)
+    grade = models.IntegerField(choices=student_grade_choices, blank=False)
 
     @property
     def student_name(self):
