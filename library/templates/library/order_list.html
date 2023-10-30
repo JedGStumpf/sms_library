@@ -4,16 +4,25 @@
 
 {% block content %}
 
-<div class="card" style="margin-top:100px">
-    <div class="card-header card-header-secondary">
-        <h4 class="card-title">Check Out Orders</h4>
-        <a href="{% url 'library:create_order' %}">Create an Order</a>
+<div class="card" style="margin-top:100px;">
+    <div style="text-align:center; padding-top:40px">
+        {% comment %} <h1>Create A New Order</h1> {% endcomment %}
     </div>
+    <div class="card-header card-header-secondary" style="padding-bottom:30px; text-align:center; font-size:35px; font-weight:bold; font-color: rgb(6,3,141);">
+        <a style="font-color: rgb(6,3,141);" ; href="{% url 'library:create_order' %}">Create A New Order</a>
+    </div>
+
+    <div style="text-align:left; padding-top:20px; ; padding-bottom:10p; font-weight:bold; rgb(6,3,141);;">
+        <h1 style="font-weight:bold; color:rgb(6,3,141);">Check In Or Update A Past Order:</h1>
+    </div>
+    <div class="container-fluid" style="padding-top:5px; text-align:left; border-top:solid black; margin-top:3px; font-size:20px;">
+
     <ul>
         {% for order in orders %}
-            <li class="card-body">{{ order }} | <a href="{% url 'library:update_order' order.id %}">Check In or Change This Order</a></li>
+            <li class="card-body">{{ order }} | <a href="{% url 'library:update_order' order.id %}"><br>Check in or Update</a></li>
         {% endfor %}
     </ul>
+</div>
 </div>
 
 {% endblock content %}

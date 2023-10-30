@@ -12,7 +12,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img\favicon-32x32-blue.png' %}"/>
         <link rel="stylesheet" href="">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
@@ -37,15 +37,15 @@
             <br>
         {% endif %}
     <div>
-        <div style="text-align:right; margin-top:120px" class="container-fluid">
-            {% if user.is_authenticated %}
-            
-            <a class="logout" href=" {% url 'users:sign_out' %}" style="color:black">Sign Out</a>
-            {% endif %}
-        </div>
-        <div class="container-fluid fixed-top" style="background-color:rgb(253, 199, 65);">
 
-            <h1 class="display-4" style="text-align:center; margin-top:25px;margin-bottom:25px; font-weight:bold">St. Mary School Library</h1>
+        <div class="container-fluid fixed-top" style="background-color:rgb(235, 183, 0); padding-bottom:25px">
+            <div style="text-align:right; " class="container-fluid">
+                {% if user.is_authenticated %}
+                
+                <a class="logout" href=" {% url 'users:sign_out' %}" style="color:black">Sign Out</a>
+                {% endif %}
+            </div>
+            <h1 class="display-4" style="text-align:center;  font-weight:bold; color:rgb(6,3,141); position: relative; top:10px"><img src="{% static 'img/SMSE_logo-only-blue.png' %}" alt="" style="width:100px;height:90px; position: relative; right: 100px; ">St. Mary School Library</h1>
         </div>
             {% block content %}
 
@@ -53,7 +53,7 @@
     </div>
 
     <footer class = "fixed-bottom">
-        <div class="footer container-fluid" style="border-bottom: solid 50px rgb(253, 199, 65)">
+        <div class="footer container-fluid" style="border-bottom: solid 50px rgb(235, 183, 0)">
         </div>
         
     </footer>

@@ -25,6 +25,10 @@ class CheckOutOrderForm(ModelForm):
             teacher_grade = self.request.user.grade
             super(CheckOutOrderForm, self).__init__(*args, **kwargs)
             # ADD LOGIC FOR MIDDLE SCHOOL AND ALL
+            if "update" not in str(self.request):
+
+                self.fields["order_returned"].widget = forms.HiddenInput()
+                self.fields["order_returned"].label = ""
             if teacher_grade == 9:
                 self.fields["student"].queryset = Student.objects.filter(
                     student__grade_get=6
@@ -55,30 +59,23 @@ class CheckOutOrderForm(ModelForm):
                     id=self.request.user.id
                 )
 
-        # user_grade = self.request.user.grade
-        # if user_grade == 9:
-        #     return CheckOutOrder.objects.exclude(order_returned=True).filter(
-        #         student__grade__gte=6
-        #     )
-
-        # elif user_grade == 10:
-        #     return CheckOutOrder.objects.all().exclude(order_returned=True)
-
-        # return CheckOutOrder.objects.exclude(order_returned=True).filter(
-        #     student__grade=user_grade
-        # )
-
     class Meta:
         model = CheckOutOrder
         fields = "__all__"
-        # exclude = ["teacher"]
-
         widgets = {
-            "due_date": forms.DateInput(
-                attrs={"required": True, "class": "form-control"}
+            "due_date": forms.SelectDateWidget(
+                attrs={
+                    "class": "form-control",
+                    "readonly": True,
+                    "disabled": True,
+                }
             ),
-            "checked_out_on": forms.DateInput(
-                attrs={"required": True, "class": "form-control"}
+            "checked_out_on": forms.SelectDateWidget(
+                attrs={
+                    "class": "form-control",
+                    "readonly": True,
+                    "disabled": True,
+                }
             ),
             "student": forms.Select(attrs={"required": True, "class": "form-control"}),
             "teacher": forms.Select(

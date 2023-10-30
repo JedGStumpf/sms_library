@@ -7,16 +7,18 @@
 <br>
 <br>
 {% if not user.is_authenticated %}
-<a class="SignIn" href="{% url 'users:sign_in' %}" >Sign In</a>
+<div class="container-fluid" style="margin-top:100px; font-weight:bold; font-size:25px; font-color:rgb(6,3,141);">
+<a class="SignIn" style="color:rgb(6,3,141);" href="{% url 'users:sign_in' %}" >Sign In</a>
+</div>
 {% endif %}
 <br>
 <br>
 
 {% if user.is_authenticated %}
 {% comment %} <h1> View Check-In or Create Student Book Orders </h1> {% endcomment %}
-<div style="padding-top:100px">
-<a style="color:rgb(66, 118, 255); font-weight:bold; font-size:25px; "class="SignIn" href="{% url 'library:order_list' %}" >View Current Orders/<br> Check-In Current Orders/<br>
-     Or Create New Orders</a>
+<div style="padding-top:100px; font-color: rgb(6,3,141);">
+<a style="color:rgb(6,3,141);; font-weight:bold; font-size:25px; "class="SignIn" href="{% url 'library:order_list' %}">Create or Manage Orders<br>
+    
 </div>
 {% endif %}
 </div>

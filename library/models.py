@@ -14,10 +14,6 @@ def get_return_date():
 
 
 class Student(models.Model):
-    teacher = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        related_name="student",
-    )
     student_first_name = models.CharField(
         max_length=100,
         help_text="Student First Name",
@@ -47,9 +43,11 @@ class CheckOutOrder(models.Model):
     student = models.ForeignKey(
         Student, related_name="student_order", on_delete=models.CASCADE
     )
-    due_date = models.DateField(default=get_return_date())
-    checked_out_on = models.DateField(default=timezone.now)
-    order_returned = models.BooleanField(default=False)
+    due_date = models.DateField(default=get_return_date(), blank=True, null=True)
+    checked_out_on = models.DateField(default=timezone.now, blank=True, null=True)
+    order_returned = models.BooleanField(
+        verbose_name="Order Completely Returned", default=False
+    )
 
     def __str__(self):
         return f"{self.student.student_name} \nChecked Out On: {self.checked_out_on}"
@@ -64,9 +62,10 @@ class AddBook(models.Model):
     )
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=50, null=True)
+    returned = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural = "Add Books"
+        verbose_name_plural = "Books"
 
     def __str__(self):
         if self.author:

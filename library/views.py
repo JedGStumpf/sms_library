@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import get_user_model
+from django import forms
 
 from .forms import (
     AddBookFormSet,
@@ -33,11 +34,13 @@ class CheckOutOrderInline:
             return self.render_to_response(self.get_context_data(form=form))
 
         self.object = form.save()
+        # print(named_formsets.items())
 
         # for every formset, attempt to find a specific formset save function
         # otherwise, just save.
         for name, formset in named_formsets.items():
             formset_save_func = getattr(self, "formset_{0}_valid".format(name), None)
+
             if formset_save_func is not None:
                 formset_save_func(formset)
             else:
@@ -62,9 +65,11 @@ class OrderCreate(LoginRequiredMixin, CheckOutOrderInline, CreateView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super(OrderCreate, self).get_context_data(**kwargs)
         context["named_formsets"] = self.get_named_formsets()
+
         return context
 
     def get_named_formsets(self):
+
         if self.request.method == "GET":
             return {
                 "books": AddBookFormSet(
@@ -87,9 +92,6 @@ class OrderCreate(LoginRequiredMixin, CheckOutOrderInline, CreateView):
         return kwargs
 
 
-# student=self.get_queryset()
-
-
 class OrderUpdate(LoginRequiredMixin, CheckOutOrderInline, UpdateView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super(OrderUpdate, self).get_context_data(**kwargs)
@@ -109,7 +111,6 @@ class OrderUpdate(LoginRequiredMixin, CheckOutOrderInline, UpdateView):
     def get_form_kwargs(self) -> dict[str, Any]:
         kwargs = super(OrderUpdate, self).get_form_kwargs()
         kwargs["request"] = self.request
-
         return kwargs
 
 
@@ -122,16 +123,28 @@ class OrderList(LoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs) -> QuerySet[Any]:
         user_grade = self.request.user.grade
         if user_grade == 9:
-            return CheckOutOrder.objects.exclude(order_returned=True).filter(
-                student__grade__gte=6
+            return (
+                CheckOutOrder.objects.exclude(order_returned=True)
+                .filter(student__grade__gte=6)
+                .order_by("student__grade")
             )
 
         elif user_grade == 10:
-            return CheckOutOrder.objects.all().exclude(order_returned=True)
+            return (
+                CheckOutOrder.objects.all()
+                .exclude(order_returned=True)
+                .order_by("student__grade")
+            )
 
         return CheckOutOrder.objects.exclude(order_returned=True).filter(
             student__grade=user_grade
         )
+
+    def get_form_kwargs(self) -> dict[str, Any]:
+        kwargs = super(OrderList, self).get_form_kwargs()
+        kwargs["request"] = self.request
+
+        return kwargs
 
     model = CheckOutOrder
 

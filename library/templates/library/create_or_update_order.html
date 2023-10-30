@@ -6,8 +6,8 @@
 <form enctype="multipart/form-data" class="container" method="post" id="student_form">
     {% csrf_token %}
     <!-- main form start --- student form -->
-    <div class="card" style="margin-top:100px">
-        <div class="card-header card-header-secondary">
+    <div class="card" style="margin-top:150px">
+        <div class="card-header card-header-secondary" style="margin-top:15px">
             {% if student.student_name %}
             <h4 class="card-title">{{ student.student_name }}</h4>
             {% else %}
@@ -15,8 +15,9 @@
             {% endif %}
         </div>
         {% for field in form %}
+        {% comment %} {% if field.as_hidden %} {% endcomment %}
             <div class="form-group card-body">
-                <label>{{field.label}}</label>
+                <label>{{field.label}} </label>
                 {% if field.field.required %}
                     <span style="color: red;" class="required">*</span>
                 {% endif %}
@@ -41,7 +42,7 @@
     {% with named_formsets.books as formset %}  
         {{ formset.management_form }}
         <script type="text/html" id="books-template">   // id="inlineformsetname-template"
-            <tr id="books-__prefix__" class= hide_all>   // id="inlineformsetname-template"
+            <tr id="books-__prefix__" class= hide_all>   
                 {% for fields in formset.empty_form.hidden_fields %}
                     {{ fields }}
                 {% endfor %} 
@@ -54,12 +55,15 @@
 
         <div class="table-responsive card mt-4">
             <div class="card-header card-header-secondary">
-                <h4 class="card-title">Books</h4>
+                <h4 class="card-title">Books On This Order</h4>
             </div>
             <table class="table card-body">
                 <thead class="text-secondary">
                     <th>Title<span style="color: red;" class="required">*</span></th>
                     <th>Author (optional)</th>
+                    <th>Check These If<br>
+                    You Are Only<br>
+                    Returning Partial</th>
                 </thead>
                 <tbody id="item-books">  <!-- id="item-inlineformsetname" -->
                     <!-- formset non forms errors -->
@@ -71,8 +75,10 @@
                         <tr id="books-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
                             {{ formss.id }}
                             {% for field in formss.visible_fields %}
-                                <td>
+                                <td class="bookfield-{{forloop.counter}}">
+
                                     {{field}}
+
                                     {% for error in field.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
@@ -113,5 +119,15 @@
       });
   });
 
+</script>
+
+<script>
+jQuery(document).ready(function() {
+    jQuery('#id_order_returned').change(function() {
+        if ($(this).prop('checked')) {
+            alert("You selected to check Every Book.\nAre you certain? \n\nYou will no longer be able to view this order after it is submitted"); //checked
+        }
+    });
+});
 </script>
 {% endblock content %}

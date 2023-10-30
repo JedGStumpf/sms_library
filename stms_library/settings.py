@@ -46,7 +46,12 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "captcha",
     "django.forms",
+    "crispy_forms",
+    "crispy_bootstrap4",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.math_challenge"
 CAPTCHA_LETTER_ROTATION = None
@@ -142,7 +147,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-DATE_FORMAT = "%m/%d/%Y"
+DATE_FORMAT = "m" + "-" + "d" + "Y"
+DATE_INPUT_FORMATS = ["%m" + "-" + "%d" + "-" + "%Y"]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
