@@ -99,12 +99,24 @@ WSGI_APPLICATION = "stms_library.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": str(os.getenv("DB_NAME")),
+        "USER": str(os.getenv("DB_USER")),
+        "PASSWORD": str(os.getenv("DB_PASSWORD")),
+        "HOST": str(os.getenv("DB_HOST")),
+        "PORT": str(os.getenv("DB_PORT")),
     }
 }
+
 AUTH_USER_MODEL = "users.CustomUser"
 
 
