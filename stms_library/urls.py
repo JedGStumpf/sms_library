@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from library import views
 from users import views
-from users.views import ResetPasswordView, CustomSignInView
+from users.views import ResetPasswordView
 from users.forms import SignInForm, CustomPasswordResetForm
 from django.contrib.admin.sites import AdminSite
 

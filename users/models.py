@@ -46,6 +46,11 @@ class CustomUser(AbstractUser):
 
 
 class ValidEmail(models.Model):
+    """
+        Simple model to store a list of valid emails
+        if an email is not on this list a new user
+        account will not be created
+    """
     email = models.EmailField(max_length=150, unique=True)
 
     class Meta:

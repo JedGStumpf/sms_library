@@ -24,6 +24,12 @@ def home_page(request):
 
 
 class CheckOutOrderInline:
+    """
+    DRY Class inherited by OrderCreate and OrderUpdate
+    Validates data from the order and book forms
+    and saves the objects to the DB
+    """
+
     form_class = CheckOutOrderForm
     model = CheckOutOrder
     template_name = "library/create_or_update_order.html"
@@ -62,14 +68,26 @@ class CheckOutOrderInline:
 
 
 class OrderCreate(LoginRequiredMixin, CheckOutOrderInline, CreateView):
+    """
+    Inherits CheckOutOrderInline and all the methods
+    in that class
+
+    View to create a new order
+    """
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """
+        Returns:
+            dict[str, Any]: contect = formsets, will be 1 order instnace
+            and at least 1 book instance
+        """
+
         context = super(OrderCreate, self).get_context_data(**kwargs)
         context["named_formsets"] = self.get_named_formsets()
 
         return context
 
     def get_named_formsets(self):
-
         if self.request.method == "GET":
             return {
                 "books": AddBookFormSet(
@@ -93,7 +111,20 @@ class OrderCreate(LoginRequiredMixin, CheckOutOrderInline, CreateView):
 
 
 class OrderUpdate(LoginRequiredMixin, CheckOutOrderInline, UpdateView):
+    """
+    Inherits CheckOutOrderInline and all the methods
+    in that class
+
+    View to update a current order after a user selects
+    the order from the order list
+    """
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        """
+        Returns:
+            dict[str, Any]: contect = formsets, will be 1 order instnace
+            and at least 1 book instance
+        """
         context = super(OrderUpdate, self).get_context_data(**kwargs)
         context["named_formsets"] = self.get_named_formsets()
         return context
@@ -109,12 +140,25 @@ class OrderUpdate(LoginRequiredMixin, CheckOutOrderInline, UpdateView):
         }
 
     def get_form_kwargs(self) -> dict[str, Any]:
+        """
+        Sends the request object (current user)
+        to the CheckOutOrderForm for so that the
+        form can perform a query based on the
+        current users grade
+        """
+
         kwargs = super(OrderUpdate, self).get_form_kwargs()
         kwargs["request"] = self.request
         return kwargs
 
 
 class OrderList(LoginRequiredMixin, ListView):
+    """
+    View to display a list of orders filtered by
+    current users grade and the repective students
+    grade
+    """
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
@@ -141,6 +185,12 @@ class OrderList(LoginRequiredMixin, ListView):
         )
 
     def get_form_kwargs(self) -> dict[str, Any]:
+        """
+        Sends the request object (current user)
+        to the CheckOutOrderForm for so that the
+        form can perform a query based on the
+        current users grade
+        """
         kwargs = super(OrderList, self).get_form_kwargs()
         kwargs["request"] = self.request
 
@@ -154,6 +204,13 @@ class OrderList(LoginRequiredMixin, ListView):
 
 @login_required
 def delete_books(request, pk):
+    """
+    Custom view to delete a book from the database
+    as of 11/2023 this is not implemented.  Common
+    users do not have the ability to delete a book
+    record.
+    This may be implemented in the future.
+    """
     try:
         book = AddBook.objects.get(id=pk)
     except AddBook.DoesNotExist:

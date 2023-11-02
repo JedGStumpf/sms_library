@@ -5,6 +5,7 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
     PasswordResetForm,
 )
+from django.core.exceptions import ValidationError
 from captcha.fields import CaptchaField
 from .models import CustomUser
 
@@ -14,6 +15,20 @@ class SignInForm(AuthenticationForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    """
+        Custom User Creation Form
+        Used only by Admin
+    """
+    class Meta:
+        model = CustomUser
+        fields = ("email", "grade")
+
+
+class NonAdminCustomUserCreationForm(UserCreationForm):
+    """
+        Custom User Creation Form
+        Used only by common users
+    """
     captcha = CaptchaField()
 
     class Meta:

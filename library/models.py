@@ -3,9 +3,13 @@ from datetime import date, timedelta
 from users.models import grade_choices
 from django.conf import settings
 from django.utils import timezone
+from users.models import CustomUser
+
 
 # Students can only have grades 0-8 (K-8)
 student_grade_choices = grade_choices[0:9]
+
+DEFAULT_TEACHER = CustomUser.objects.get(email="library@stmesc.org").id
 
 
 def get_return_date():
@@ -14,6 +18,10 @@ def get_return_date():
 
 
 class Student(models.Model):
+    """
+        Model defining fields to create a
+        new student
+    """
     student_first_name = models.CharField(
         max_length=100,
         help_text="Student First Name",
@@ -34,19 +42,24 @@ class Student(models.Model):
 
 
 class CheckOutOrder(models.Model):
+    """
+        Model to create a new order, foreignkeys
+        to both a user instance and a student instance
+        tying this order to both instances on creation
+    """
     teacher = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="teacher_order",
         on_delete=models.SET_DEFAULT,
-        default=1,
+        default=DEFAULT_TEACHER,
     )
     student = models.ForeignKey(
         Student, related_name="student_order", on_delete=models.CASCADE
     )
-    due_date = models.DateField(default=get_return_date(), blank=True, null=True)
     checked_out_on = models.DateField(default=timezone.now, blank=True, null=True)
+    due_date = models.DateField(default=get_return_date(), blank=True, null=True)
     order_returned = models.BooleanField(
-        verbose_name="Order Completely Returned", default=False
+        verbose_name="Return All Books And Close Order", default=False
     )
 
     def __str__(self):
@@ -57,6 +70,11 @@ class CheckOutOrder(models.Model):
 
 
 class AddBook(models.Model):
+    """
+        Model to create a new book instance
+        Foreignkey to CheckOutOrder tying a created book
+        to an order
+    """
     order = models.ForeignKey(
         CheckOutOrder, on_delete=models.CASCADE, related_name="order"
     )

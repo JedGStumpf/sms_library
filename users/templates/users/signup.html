@@ -10,6 +10,7 @@
     {% csrf_token %}
     
     <form method="post" style="max-width:350px">
+        {% csrf_token %}
         {{ form|crispy }}
         <br/>
         <button type="submit">Sign Up</button>

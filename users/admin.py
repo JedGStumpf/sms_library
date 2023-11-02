@@ -14,6 +14,17 @@ from .models import CustomUser, ValidEmail
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Custom admin class that manages users
+
+    Identifies which fields should be present in admin
+    and user creation forms
+
+    restricts common usurs from acceessing the Admin
+    restricts users show gain admin access from the
+    ability to change their own asmin permissions
+    """
+
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
