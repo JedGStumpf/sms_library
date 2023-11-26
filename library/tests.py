@@ -42,7 +42,7 @@ class CheckOutOrderTest(TestCase):
             email="jedgstumpf@gmail.com", password="foo", grade=1
         )
         student = Student.objects.create(
-            student_first_name="Molly", student_last_name="Stumpf", grade=2
+            student_first_name="Molly", student_last_name="Stumpf", grade=1
         )
         order = CheckOutOrder.objects.create(
             teacher=User.objects.get(email="jedgstumpf@gmail.com"),
