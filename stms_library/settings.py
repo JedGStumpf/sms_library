@@ -31,7 +31,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['library.stmesc.org', 'www.library.stmesc.org']
+ALLOWED_HOSTS = ['library.stmesc.org', 'www.library.stmesc.org', 'localhost', '164.92.98.33']
 SECURE_HSTS_SECONDS = 3600
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
